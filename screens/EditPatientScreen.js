@@ -25,8 +25,8 @@ const EditPatientScreen = (props) => {
 
 	// If the the title is set then initialize with title else with empty string. Same goes for other properties
 	const [title, setTitle] = useState(editedPatient ? editedPatient.title : '');
-	const [imageUrl, setImageUrl] = useState(
-		editedPatient ? editedPatient.imageUrl : ''
+	const [photo, setImageUrl] = useState(
+		editedPatient ? editedPatient.photo : ''
 	);
 	const [diagnosis, setDiagnosis] = useState(
 		editedPatient ? editedPatient.diagnosis : ''
@@ -60,7 +60,7 @@ const EditPatientScreen = (props) => {
 				patientsActions.updatePatient(
 					patId,
 					title,
-					imageUrl,
+					photo,
 					diagnosis,
 					age,
 					description,
@@ -77,7 +77,7 @@ const EditPatientScreen = (props) => {
 				patientsActions.createPatient(
 					// else dispatch create patient action
 					title,
-					imageUrl,
+					photo,
 					diagnosis,
 					age,
 					description,
@@ -95,7 +95,7 @@ const EditPatientScreen = (props) => {
 		dispatch,
 		patId,
 		title,
-		imageUrl,
+		photo,
 		diagnosis,
 		age,
 		description,
@@ -130,7 +130,7 @@ const EditPatientScreen = (props) => {
 							keyboardType='default'
 							multiline
 							style={styles.input}
-							value={imageUrl}
+							value={photo}
 							onChangeText={(text) => setImageUrl(text)}
 						/>
 					</View>

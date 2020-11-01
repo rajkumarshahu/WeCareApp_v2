@@ -1,4 +1,3 @@
-import PATIENTS from '../../data/dummy-patients';
 import Patient from '../../models/patient';
 import {
 	DELETE_PATIENT,
@@ -9,8 +8,8 @@ import {
 
 // Finding initial state
 const initialState = {
-	clients: PATIENTS, // Initialized with dummy patients
-	criticalPatients: PATIENTS.filter((p) => p.isCritical === true), // Filtered the patients if they are critical
+	clients: '',
+	criticalPatients: '',
 };
 
 export default (state = initialState, action) => {
@@ -18,7 +17,7 @@ export default (state = initialState, action) => {
 		case SET_PATIENTS:
 			return {
 				clients: action.patients,
-				criticalPatients: PATIENTS.filter((p) => p.isCritical === true)
+				criticalPatients: action.patients.filter((p) => p.isCritical === true)
 			}
 		case DELETE_PATIENT:
 			return {
@@ -31,11 +30,11 @@ export default (state = initialState, action) => {
 		case CREATE_PATIENT:
 			// Creating new patient
 			const newPatient = new Patient(
-				new Date().toString(), // Manually generated id with the help of Date function
+				action.patientData.id,
 				'u1',
 				// title and other properties populated with the help of data from action
 				action.patientData.title,
-				action.patientData.imageUrl,
+				action.patientData.photo,
 				action.patientData.diagnosis,
 				action.patientData.age,
 				action.patientData.description,
@@ -62,7 +61,7 @@ export default (state = initialState, action) => {
 				action.pid,
 				action.careProviderId,
 				action.patientData.title,
-				action.patientData.imageUrl,
+				action.patientData.photo,
 				action.patientData.diagnosis,
 				action.patientData.age,
 				action.patientData.description,

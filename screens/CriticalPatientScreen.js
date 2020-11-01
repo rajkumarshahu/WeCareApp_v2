@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, Button, Platform, Alert, View, Text } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -13,6 +13,10 @@ const CriticalPatientScreen = (props) => {
 		(state) => state.patients.criticalPatients
 	);
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(patientsActions.fetchPatients());
+	}, [dispatch])
 
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('PatientDetail', {
@@ -52,7 +56,7 @@ const CriticalPatientScreen = (props) => {
 			keyExtractor={(item) => item.id}
 			renderItem={(itemData) => (
 				<PatientListItem
-					image={itemData.item.imageUrl}
+					image={itemData.item.photo}
 					title={itemData.item.title}
 					age={itemData.item.age}
 					onSelect={() => {

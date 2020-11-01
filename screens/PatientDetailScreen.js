@@ -18,7 +18,7 @@ const PatientDetailScreen = (props) => {
 
 	return (
 		<ScrollView>
-			<Image style={styles.image} source={{ uri: selectedPatient.imageUrl }} />
+			<Image style={styles.image} source={{ uri: selectedPatient.photo }} />
 			<View>
 				<Card>
 					<View>

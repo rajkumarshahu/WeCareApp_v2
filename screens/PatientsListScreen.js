@@ -50,7 +50,7 @@ const PatientsListScreen = (props) => {
 			keyExtractor={(item) => item.id}
 			renderItem={(itemData) => (
 				<PatientListItem
-					image={itemData.item.imageUrl}
+					image={itemData.item.photo}
 					title={itemData.item.title}
 					age={itemData.item.age}
 					onSelect={() => {
