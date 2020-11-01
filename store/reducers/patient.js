@@ -8,8 +8,8 @@ import {
 
 // Finding initial state
 const initialState = {
-	clients: '',
-	criticalPatients: '',
+	clients: [],
+	criticalPatients: [],
 };
 
 export default (state = initialState, action) => {
@@ -28,6 +28,7 @@ export default (state = initialState, action) => {
 				clients: state.clients.filter((patient) => patient.id !== action.pid),
 			};
 		case CREATE_PATIENT:
+		console.log('here!')
 			// Creating new patient
 			const newPatient = new Patient(
 				action.patientData.id,
@@ -43,8 +44,11 @@ export default (state = initialState, action) => {
 				action.patientData.respirationRate,
 				action.patientData.systolicBP,
 				action.patientData.diastolicBP,
-				action.patientData.o2sat
+				action.patientData.o2sat,
+				action.patientData.isCritical
 			);
+			console.log("new patient:")
+			console.log(newPatient);
 			return {
 				// Adds newly created patient to store by updating state
 				...state, // first copy the existing state

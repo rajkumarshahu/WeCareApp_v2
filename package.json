@@ -31,8 +31,7 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0",
-    "redux-devtools-extension": "^2.13.8"
+    "@babel/core": "~7.9.0"
   },
   "private": true
 }

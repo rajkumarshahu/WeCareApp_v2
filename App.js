@@ -3,8 +3,6 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 
-// import { composeWithDevTools } from 'redux-devtools-extension';
-
 import patientsReducer from './store/reducers/patient';
 // import logInSignUpReducer from './store/reducers/logInSignUp';
 import Navigator from './navigation/Navigator';

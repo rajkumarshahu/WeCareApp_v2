@@ -26,14 +26,15 @@ export const fetchPatients = () => {
 				resData[key].diagnosis,
 				resData[key].age,
 				resData[key].description,
-				resData[key].bodyTemperature,
-				resData[key].pulseRate,
-				resData[key].respirationRate,
-				resData[key].systolicBP,
-				resData[key].diastolicBP,
-				resData[key].o2sat,
+				resData[key].records.bodyTemperature,
+				resData[key].records.pulseRate,
+				resData[key].records.respirationRate,
+				resData[key].records.systolicBP,
+				resData[key].records.diastolicBP,
+				resData[key].records.o2sat,
 				resData[key].isCritical
-			))
+			));
+			console.log(resData[key].records);
 
 		}
 
@@ -60,53 +61,32 @@ export const createPatient = (
 	isCritical
 ) => {
 	return async dispatch =>{
+		const formData = new FormData();
+		formData.append('title',title);
+		formData.append('photo',photo);
+		formData.append('diagnosis',diagnosis);
+		formData.append('description',description);
+		formData.append('bodyTemperature',bodyTemperature);
+		formData.append('pulseRate',pulseRate);
+		formData.append('respirationRate',respirationRate);
+		formData.append('systolicBP',systolicBP);
+		formData.append('diastolicBP',diastolicBP);
+		formData.append('o2sat',o2sat);
+		formData.append('isCritical',true);
 
-		// const response = await axios({
-		// 	method: 'post',
-		// 	url: 'https://api-wecare.herokuapp.com/patients',
-		// 	headers:{
-		// 		"Content-Type":"application/json"
-		// 	},
-		// 	data: {
-		// 		title
-		// 		photo,
-		// 		diagnosis,
-		// 		age,
-		// 		description',
-		// 		bodyTemperature,
-		// 		pulseRate,
-		// 		respirationRate,
-		// 		systolicBP',
-		// 		diastolicBP,
-		// 		o2sat
-		// 	}
-		// })
-		// const resData = await response
 		const response = await fetch('http://localhost:5000/patients',{
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json'
+				'Accept': 'application/json',
+      			'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({
-				title,
-				photo,
-				diagnosis,
-				age,
-				description,
-				bodyTemperature,
-				pulseRate,
-				respirationRate,
-				systolicBP,
-				diastolicBP,
-				o2sat,
-				isCritical
-			})
+			body: formData
 		});
 
-		const resData = await response.json();
-		resData = resData.data;
-
+		let resData = await response.json();
 		console.log(resData);
+
+		resData = resData.data;
 
 		dispatch( {
 			type: CREATE_PATIENT,

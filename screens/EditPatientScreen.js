@@ -4,7 +4,7 @@ import {
 	ScrollView,
 	StyleSheet,
 	Platform,
-	KeyboardAvoidingView,
+	KeyboardAvoidingView
 } from 'react-native';
 import { TextInput, Card } from 'react-native-paper';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -52,6 +52,7 @@ const EditPatientScreen = (props) => {
 		editedPatient ? editedPatient.diastolicBP : ''
 	);
 	const [o2sat, setO2sat] = useState(editedPatient ? editedPatient.o2sat : '');
+	const [isCritical, setIsCritical] = useState(editedPatient ? editedPatient.isCritical : false);
 
 	const submitHandler = useCallback(() => {
 		if (editedPatient) {
@@ -69,7 +70,8 @@ const EditPatientScreen = (props) => {
 					respirationRate,
 					systolicBP,
 					diastolicBP,
-					o2sat
+					o2sat,
+					isCritical
 				)
 			);
 		} else {
@@ -86,7 +88,8 @@ const EditPatientScreen = (props) => {
 					respirationRate,
 					systolicBP,
 					diastolicBP,
-					o2sat
+					o2sat,
+					isCritical
 				)
 			);
 		}
@@ -105,6 +108,7 @@ const EditPatientScreen = (props) => {
 		systolicBP,
 		diastolicBP,
 		o2sat,
+		isCritical
 	]);
 
 	useEffect(() => {
@@ -217,6 +221,15 @@ const EditPatientScreen = (props) => {
 							onChangeText={(text) => setO2sat(text)}
 						/>
 					</View>
+					{/* <View style={styles.formControl}>
+					<Picker
+  selectedValue={isCritical}
+  style={{ height: 50, width: 100 }}
+  onValueChange={(itemValue) => setIsCritical({ itemValue })}>
+  <Picker.Item label="False" value="false" />
+  <Picker.Item label="True" value="true" />
+</Picker>
+					</View> */}
 				</Card>
 			</KeyboardAvoidingView>
 		</ScrollView>
