@@ -23,6 +23,9 @@ const PatientDetailScreen = (props) => {
 				<Card>
 					<View>
 						<Text style={styles.age}>Age: {selectedPatient.age}</Text>
+						<Text style={styles.age}>Email: {selectedPatient.email}</Text>
+						<Text style={styles.age}>Phone: {selectedPatient.phone}</Text>
+						<Text style={styles.age}>Address: {selectedPatient.address}</Text>
 					</View>
 					<View>
 						<Text style={styles.age}>
@@ -110,10 +113,10 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	age: {
-		fontSize: 20,
+		fontSize: 15,
 		color: '#888',
 		textAlign: 'center',
-		marginVertical: 20,
+		marginVertical: 10,
 	},
 });
 

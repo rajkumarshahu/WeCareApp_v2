@@ -16,26 +16,46 @@ export const fetchPatients = () => {
 		resData = resData.data;
 
 		const fetchedPatients = [];
+		let bodyTemperature = '', pulseRate='', respirationRate='', systolicBP='',diastolicBP='', o2sat='' ;
 
 		for (const key in resData) {
-			fetchedPatients.push(new Patient(
+let records = resData[key].records;
+
+			if(records instanceof Array && records.length > 0) {
+
+				let len = records.length;
+				for(let i=0;i<len;i++) {
+					bodyTemperature = records[i].bodyTemperature;
+					pulseRate = records[i].pulseRate;
+					respirationRate = records[i].respirationRate;
+					systolicBP = records[i].systolicBP;
+					diastolicBP = records[i].diastolicBP;
+					o2sat = records[i].respirationRate;
+				}
+
+			}
+
+			let newPatient = new Patient(
 				key,
 				'u1',
 				resData[key].title,
 				resData[key].photo,
 				resData[key].diagnosis,
 				resData[key].age,
+				resData[key].phone,
+				resData[key].email,
+				resData[key].address,
 				resData[key].description,
-				resData[key].records.bodyTemperature,
-				resData[key].records.pulseRate,
-				resData[key].records.respirationRate,
-				resData[key].records.systolicBP,
-				resData[key].records.diastolicBP,
-				resData[key].records.o2sat,
+				bodyTemperature,
+				pulseRate,
+				respirationRate,
+				systolicBP,
+				diastolicBP,
+				o2sat,
 				resData[key].isCritical
-			));
-			console.log(resData[key].records);
+			);
 
+			fetchedPatients.push(newPatient);
 		}
 
 		 dispatch({ type: SET_PATIENTS, patients: fetchedPatients })
@@ -51,6 +71,9 @@ export const createPatient = (
 	photo,
 	diagnosis,
 	age,
+	phone,
+	email,
+	address,
 	description,
 	bodyTemperature,
 	pulseRate,
@@ -65,6 +88,10 @@ export const createPatient = (
 		formData.append('title',title);
 		formData.append('photo',photo);
 		formData.append('diagnosis',diagnosis);
+		formData.append('age',age);
+		formData.append('phone',phone);
+		formData.append('email',email);
+		formData.append('address',address);
 		formData.append('description',description);
 		formData.append('bodyTemperature',bodyTemperature);
 		formData.append('pulseRate',pulseRate);
@@ -96,6 +123,9 @@ export const createPatient = (
 				photo,
 				diagnosis,
 				age,
+				phone,
+				email,
+				address,
 				description,
 				bodyTemperature,
 				pulseRate,
@@ -116,6 +146,9 @@ export const updatePatient = (
 	photo,
 	diagnosis,
 	age,
+	phone,
+	email,
+	address,
 	description,
 	bodyTemperature,
 	pulseRate,
@@ -133,6 +166,9 @@ export const updatePatient = (
 			photo,
 			diagnosis,
 			age,
+			phone,
+			email,
+			address,
 			description,
 			bodyTemperature,
 			pulseRate,

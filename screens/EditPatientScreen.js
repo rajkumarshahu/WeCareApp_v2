@@ -4,9 +4,12 @@ import {
 	ScrollView,
 	StyleSheet,
 	Platform,
-	KeyboardAvoidingView
+	KeyboardAvoidingView,
+
 } from 'react-native';
-import { TextInput, Card } from 'react-native-paper';
+import {Picker} from '@react-native-picker/picker';
+import { TextInput, Card, Switch } from 'react-native-paper';
+import { add } from 'react-native-reanimated';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -31,28 +34,42 @@ const EditPatientScreen = (props) => {
 	const [diagnosis, setDiagnosis] = useState(
 		editedPatient ? editedPatient.diagnosis : ''
 	);
-	const [age, setAge] = useState(editedPatient ? editedPatient.age : '');
+	console.log(editedPatient);
+	const [age, setAge] = useState(editedPatient ? editedPatient.age+'' : '');
+
+	const [phone, setPhone] = useState(
+		editedPatient ? editedPatient.phone : ''
+	);
+
+	const [email, setEmail] = useState(
+		editedPatient ? editedPatient.email : ''
+	);
+
+	const [address, setAddress] = useState(
+		editedPatient ? editedPatient.address : ''
+	);
 
 	const [description, setDescription] = useState(
 		editedPatient ? editedPatient.description : ''
 	);
 	const [bodyTemperature, setBodyTemperature] = useState(
-		editedPatient ? editedPatient.bodyTemperature : ''
+		editedPatient ? editedPatient.bodyTemperature+'' : ''
 	);
 	const [pulseRate, setPulseRate] = useState(
-		editedPatient ? editedPatient.pulseRate : ''
+		editedPatient ? editedPatient.pulseRate+'' : ''
 	);
 	const [respirationRate, setRespirationRate] = useState(
-		editedPatient ? editedPatient.respirationRate : ''
+		editedPatient ? editedPatient.respirationRate+'' : ''
 	);
 	const [systolicBP, setSystolicBP] = useState(
-		editedPatient ? editedPatient.systolicBP : ''
+		editedPatient ? editedPatient.systolicBP+'' : ''
 	);
 	const [diastolicBP, setDiastolicBP] = useState(
-		editedPatient ? editedPatient.diastolicBP : ''
+		editedPatient ? editedPatient.diastolicBP+'' : ''
 	);
-	const [o2sat, setO2sat] = useState(editedPatient ? editedPatient.o2sat : '');
+	const [o2sat, setO2sat] = useState(editedPatient ? editedPatient.o2sat+'' : '');
 	const [isCritical, setIsCritical] = useState(editedPatient ? editedPatient.isCritical : false);
+	const onToggleSwitch = () => setIsCritical(!isCritical);
 
 	const submitHandler = useCallback(() => {
 		if (editedPatient) {
@@ -64,6 +81,9 @@ const EditPatientScreen = (props) => {
 					photo,
 					diagnosis,
 					age,
+					phone,
+					email,
+					address,
 					description,
 					bodyTemperature,
 					pulseRate,
@@ -82,6 +102,9 @@ const EditPatientScreen = (props) => {
 					photo,
 					diagnosis,
 					age,
+					phone,
+					email,
+					address,
 					description,
 					bodyTemperature,
 					pulseRate,
@@ -101,6 +124,9 @@ const EditPatientScreen = (props) => {
 		photo,
 		diagnosis,
 		age,
+		phone,
+		email,
+		address,
 		description,
 		bodyTemperature,
 		pulseRate,
@@ -154,6 +180,36 @@ const EditPatientScreen = (props) => {
 							style={styles.input}
 							value={age}
 							onChangeText={(text) => setAge(text)}
+						/>
+					</View>
+
+					<View style={styles.formControl}>
+						<TextInput
+							label='Phone'
+							keyboardType='default'
+							style={styles.input}
+							value={phone}
+							onChangeText={(text) => setPhone(text)}
+						/>
+					</View>
+
+					<View style={styles.formControl}>
+						<TextInput
+							label='Email'
+							keyboardType='default'
+							style={styles.input}
+							value={email}
+							onChangeText={(text) => setEmail(text)}
+						/>
+					</View>
+
+					<View style={styles.formControl}>
+						<TextInput
+							label='Address'
+							keyboardType='default'
+							style={styles.input}
+							value={address}
+							onChangeText={(text) => setAddress(text)}
 						/>
 					</View>
 
@@ -221,15 +277,9 @@ const EditPatientScreen = (props) => {
 							onChangeText={(text) => setO2sat(text)}
 						/>
 					</View>
-					{/* <View style={styles.formControl}>
-					<Picker
-  selectedValue={isCritical}
-  style={{ height: 50, width: 100 }}
-  onValueChange={(itemValue) => setIsCritical({ itemValue })}>
-  <Picker.Item label="False" value="false" />
-  <Picker.Item label="True" value="true" />
-</Picker>
-					</View> */}
+					<View style={styles.formControl}>
+					<Switch value={isCritical} onValueChange={onToggleSwitch} />
+					</View>
 				</Card>
 			</KeyboardAvoidingView>
 		</ScrollView>

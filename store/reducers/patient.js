@@ -28,7 +28,7 @@ export default (state = initialState, action) => {
 				clients: state.clients.filter((patient) => patient.id !== action.pid),
 			};
 		case CREATE_PATIENT:
-		console.log('here!')
+
 			// Creating new patient
 			const newPatient = new Patient(
 				action.patientData.id,
@@ -38,6 +38,9 @@ export default (state = initialState, action) => {
 				action.patientData.photo,
 				action.patientData.diagnosis,
 				action.patientData.age,
+				action.patientData.phone,
+				action.patientData.email,
+				action.patientData.address,
 				action.patientData.description,
 				action.patientData.bodyTemperature,
 				action.patientData.pulseRate,
@@ -68,6 +71,9 @@ export default (state = initialState, action) => {
 				action.patientData.photo,
 				action.patientData.diagnosis,
 				action.patientData.age,
+				action.patientData.phone,
+				action.patientData.email,
+				action.patientData.address,
 				action.patientData.description,
 				action.patientData.bodyTemperature,
 				action.patientData.pulseRate,
