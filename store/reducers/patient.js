@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 		case SET_PATIENTS:
 			return {
-				clients: action.patients.filter((p) => p.isCritical === false),
+				clients: action.patients,
 				criticalPatients: action.patients.filter((p) => p.isCritical === true)
 			}
 		case DELETE_PATIENT:
@@ -65,7 +65,6 @@ export default (state = initialState, action) => {
 			);
 			const updatedPatient = new Patient(
 				action.pid,
-				action.careProviderId,
 				action.patientData.title,
 				action.patientData.photo,
 				action.patientData.diagnosis,
@@ -79,11 +78,13 @@ export default (state = initialState, action) => {
 				action.patientData.respirationRate,
 				action.patientData.systolicBP,
 				action.patientData.diastolicBP,
-				action.patientData.o2Sat
+				action.patientData.o2Sat,
+				action.patientData.isCritical
 			);
 			// Updating state
 			const updatedCriticalPatients = [...state.criticalPatients]; // copying existing critical patients
 			updatedCriticalPatients[patientIndex] = updatedPatient; // replace selected critical patient index with updated patient in the copy
+
 			const clientIndex = state.clients.findIndex(
 				(pat) => pat.id === action.pid
 			);

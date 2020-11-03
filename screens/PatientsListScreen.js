@@ -29,6 +29,7 @@ const PatientsListScreen = (props) => {
 
 	const editPatientHandler = (id) => {
 		// Navigate edit patient screen with patientId being forwarded
+		console.log("patient_id: "+id);
 		props.navigation.navigate('EditPatient', { patientId: id });
 	};
 

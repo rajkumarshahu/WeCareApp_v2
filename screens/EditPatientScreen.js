@@ -4,8 +4,7 @@ import {
 	ScrollView,
 	StyleSheet,
 	Platform,
-	KeyboardAvoidingView,
-
+	KeyboardAvoidingView
 } from 'react-native';
 import { TextInput, Card, Switch } from 'react-native-paper';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -17,9 +16,12 @@ import * as patientsActions from '../store/actions/patient';
 const EditPatientScreen = (props) => {
 	// To populate when in edit mode get patId
 	const patId = props.navigation.getParam('patientId');
+	console.log(patId);
 
 	// Getting edited patient if patient id is set then we are in edit mode
-	const editedPatient = useSelector((state) => state.patients.clients.find((pat) => pat.id === patId));
+	const editedPatient = useSelector((state) =>
+		state.patients.clients.find((pat) => pat.id === patId)
+	);
 
 	//console.log(editedPatient);
 
@@ -27,22 +29,22 @@ const EditPatientScreen = (props) => {
 
 	// If the the title is set then initialize with title else with empty string. Same goes for other properties
 	const [title, setTitle] = useState(editedPatient ? editedPatient.title : '');
+	// const [titleIsValid, setTitleIsValid] = useState(false);
 	const [photo, setImageUrl] = useState(
 		editedPatient ? editedPatient.photo : ''
 	);
+	// const [imageUrlIsValid, setImageUrlIsValid] = useState(false);
 	const [diagnosis, setDiagnosis] = useState(
 		editedPatient ? editedPatient.diagnosis : ''
 	);
+	// const [diagnosisIsValid, setDiagnosisIsValid] = useState(false);
 
-	const [age, setAge] = useState(editedPatient ? editedPatient.age+'' : '');
+	const [age, setAge] = useState(editedPatient ? editedPatient.age + '' : '');
+	// const [ageIsValid, setAgeisIsValid] = useState(false);
 
-	const [phone, setPhone] = useState(
-		editedPatient ? editedPatient.phone : ''
-	);
+	const [phone, setPhone] = useState(editedPatient ? editedPatient.phone : '');
 
-	const [email, setEmail] = useState(
-		editedPatient ? editedPatient.email : ''
-	);
+	const [email, setEmail] = useState(editedPatient ? editedPatient.email : '');
 
 	const [address, setAddress] = useState(
 		editedPatient ? editedPatient.address : ''
@@ -52,28 +54,36 @@ const EditPatientScreen = (props) => {
 		editedPatient ? editedPatient.description : ''
 	);
 	const [bodyTemperature, setBodyTemperature] = useState(
-		editedPatient ? editedPatient.bodyTemperature+'' : ''
+		editedPatient ? editedPatient.bodyTemperature + '' : ''
 	);
 	const [pulseRate, setPulseRate] = useState(
-		editedPatient ? editedPatient.pulseRate+'' : ''
+		editedPatient ? editedPatient.pulseRate + '' : ''
 	);
 	const [respirationRate, setRespirationRate] = useState(
-		editedPatient ? editedPatient.respirationRate+'' : ''
+		editedPatient ? editedPatient.respirationRate + '' : ''
 	);
 	const [systolicBP, setSystolicBP] = useState(
-		editedPatient ? editedPatient.systolicBP+'' : ''
+		editedPatient ? editedPatient.systolicBP + '' : ''
 	);
 	const [diastolicBP, setDiastolicBP] = useState(
-		editedPatient ? editedPatient.diastolicBP+'' : ''
+		editedPatient ? editedPatient.diastolicBP + '' : ''
 	);
 	const [o2sat, setO2Sat] = useState(
-		editedPatient ? editedPatient.o2sat+'' : ''
+		editedPatient ? editedPatient.o2sat + '' : ''
 	);
 
-	const [isCritical, setIsCritical] = useState(editedPatient ? editedPatient.isCritical : false);
+	const [isCritical, setIsCritical] = useState(
+		editedPatient ? editedPatient.isCritical : false
+	);
 	const onToggleSwitch = () => setIsCritical(!isCritical);
 
 	const submitHandler = useCallback(() => {
+		// if (!titleIsValid || !imageUrlIsValid || !diagnosisIsValid || !ageIsValid) {
+		// 	Alert.alert('Wrong input!', 'Please check the errors in the form.', [
+		// 		{ text: 'Okay' },
+		// 	]);
+		// 	return;
+		// }
 		if (editedPatient) {
 			// then we are editing and dispatch update patient action
 			dispatch(
@@ -137,12 +147,47 @@ const EditPatientScreen = (props) => {
 		systolicBP,
 		diastolicBP,
 		o2sat,
-		isCritical
+		isCritical,
 	]);
 
 	useEffect(() => {
 		props.navigation.setParams({ submit: submitHandler });
 	}, [submitHandler]);
+
+	// const titleChangeHandler = (text) => {
+	// 	if (text.trim().length === 0) {
+	// 		setTitleIsValid(false);
+	// 	} else {
+	// 		setTitleIsValid(true);
+	// 	}
+	// 	setTitle(text);
+	// };
+
+	// const imageUrlChangeHandler = (text) => {
+	// 	if (text.trim().length === 0) {
+	// 		setImageUrlIsValid(false);
+	// 	} else {
+	// 		setImageUrlIsValid(true);
+	// 	}
+	// 	setImageUrl(text);
+	// };
+
+	// const diagnosisChangeHandler = (text) => {
+	// 	if (text.trim().length === 0) {
+	// 		setDiagnosisIsValid(false);
+	// 	} else {
+	// 		setDiagnosisIsValid(true);
+	// 	}
+	// 	setDiagnosis(text);
+	// };
+	// const ageChangeHandler = (text) => {
+	// 	if (text.trim().length === 0) {
+	// 		setAgeisIsValid(false);
+	// 	} else {
+	// 		setAgeisIsValid(true);
+	// 	}
+	// 	setAge(text);
+	// };
 
 	return (
 		<ScrollView>
@@ -155,16 +200,18 @@ const EditPatientScreen = (props) => {
 							style={styles.input}
 							value={title}
 							onChangeText={(text) => setTitle(text)}
+							returnKeyType='next'
 						/>
 					</View>
 					<View style={styles.formControl}>
 						<TextInput
 							label='Image URL'
-							keyboardType='default'
+							keyboardType='url'
 							multiline
 							style={styles.input}
 							value={photo}
 							onChangeText={(text) => setImageUrl(text)}
+							returnKeyType='next'
 						/>
 					</View>
 					<View style={styles.formControl}>
@@ -174,15 +221,17 @@ const EditPatientScreen = (props) => {
 							style={styles.input}
 							value={diagnosis}
 							onChangeText={(text) => setDiagnosis(text)}
+							returnKeyType='next'
 						/>
 					</View>
 					<View style={styles.formControl}>
 						<TextInput
 							label='Age'
-							keyboardType='default'
+							keyboardType='decimal-pad'
 							style={styles.input}
 							value={age}
 							onChangeText={(text) => setAge(text)}
+							returnKeyType='next'
 						/>
 					</View>
 
@@ -193,16 +242,18 @@ const EditPatientScreen = (props) => {
 							style={styles.input}
 							value={phone}
 							onChangeText={(text) => setPhone(text)}
+							returnKeyType='next'
 						/>
 					</View>
 
 					<View style={styles.formControl}>
 						<TextInput
 							label='Email'
-							keyboardType='default'
+							keyboardType='email-address'
 							style={styles.input}
 							value={email}
 							onChangeText={(text) => setEmail(text)}
+							returnKeyType='next'
 						/>
 					</View>
 
@@ -213,6 +264,7 @@ const EditPatientScreen = (props) => {
 							style={styles.input}
 							value={address}
 							onChangeText={(text) => setAddress(text)}
+							returnKeyType='next'
 						/>
 					</View>
 
@@ -224,64 +276,71 @@ const EditPatientScreen = (props) => {
 							style={styles.input}
 							value={description}
 							onChangeText={(text) => setDescription(text)}
+							returnKeyType='next'
 						/>
 					</View>
 					<View style={styles.formControl}>
 						<TextInput
 							label='Body Temperature'
-							keyboardType='default'
+							keyboardType='decimal-pad'
 							style={styles.input}
 							value={bodyTemperature}
 							onChangeText={(text) => setBodyTemperature(text)}
+							returnKeyType='next'
 						/>
 					</View>
 					<View style={styles.formControl}>
 						<TextInput
 							label='Pulse Rate'
-							keyboardType='default'
+							keyboardType='decimal-pad'
 							style={styles.input}
 							value={pulseRate}
 							onChangeText={(text) => setPulseRate(text)}
+							returnKeyType='next'
 						/>
 					</View>
 					<View style={styles.formControl}>
 						<TextInput
 							label='Respiration Rate'
-							keyboardType='default'
+							keyboardType='decimal-pad'
 							style={styles.input}
 							value={respirationRate}
 							onChangeText={(text) => setRespirationRate(text)}
+							returnKeyType='next'
 						/>
 					</View>
 					<View style={styles.formControl}>
 						<TextInput
 							label='Systolic BP'
-							keyboardType='default'
+							keyboardType='decimal-pad'
 							style={styles.input}
 							value={systolicBP}
 							onChangeText={(text) => setSystolicBP(text)}
+							returnKeyType='next'
 						/>
 					</View>
 					<View style={styles.formControl}>
 						<TextInput
 							label='Diastolic BP'
-							keyboardType='default'
+							keyboardType='decimal-pad'
 							style={styles.input}
 							value={diastolicBP}
 							onChangeText={(text) => setDiastolicBP(text)}
+							returnKeyType='next'
 						/>
 					</View>
 					<View style={styles.formControl}>
 						<TextInput
 							label='Oxygen Saturation'
-							keyboardType='default'
+							keyboardType='decimal-pad'
 							style={styles.input}
 							value={o2sat}
 							onChangeText={(text) => setO2Sat(text)}
+							returnKeyType='next'
 						/>
 					</View>
 					<View style={styles.formControl}>
-					<Switch value={isCritical} onValueChange={onToggleSwitch} />
+						<Switch value={isCritical} onValueChange={onToggleSwitch} />
 					</View>
 				</Card>
 			</KeyboardAvoidingView>

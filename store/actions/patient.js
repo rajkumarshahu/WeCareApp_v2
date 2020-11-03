@@ -69,7 +69,23 @@ export const fetchPatients = () => {
 };
 
 export const deletePatient = (patientId) => {
-	return { type: DELETE_PATIENT, pid: patientId };
+	return async dispatch => {
+		const response = await fetch(`${api_host}patients/${patientId}`,{
+			method: 'DELETE',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			}
+		});
+
+		let resData = await response.json();
+		resData = resData.data;
+
+		dispatch( {
+			type: DELETE_PATIENT,
+			pid: patientId
+		});
+	}
 };
 
 export const createPatient = (
@@ -210,17 +226,31 @@ export const updatePatient = (
 		recordData.append('diastolicBP', diastolicBP);
 		recordData.append('o2Sat', o2Sat);
 
-		const record_response = await fetch(`${api_host}patients/${resData._id}/records`,{
-			method: 'PUT',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: recordData,
-		});
+		// const record_response = await fetch(`${api_host}patients/${resData._id}/records`,{
+		// 	method: 'PUT',
+		// 	headers: {
+		// 		Accept: 'application/json',
+		// 		'Content-Type': 'application/json',
+		// 	},
+		// 	body: recordData,
+		// });
 
-		let recordDataResponse = await record_response.json();
-		recordDataResponse = recordDataResponse.data;
+		// let recordDataResponse = await record_response.json();
+		// recordDataResponse = recordDataResponse.data;
+
+		if(typeof resData._id !== 'undefined') {
+			const record_response = await fetch(`${api_host}patients/${resData._id}/records`,{
+				method: 'PUT',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: recordData,
+			});
+
+			let recordDataResponse = await record_response.json();
+			recordDataResponse = recordDataResponse.data;
+		}
 
 		dispatch( {
 			type: UPDATE_PATIENT,
