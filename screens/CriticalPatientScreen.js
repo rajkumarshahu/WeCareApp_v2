@@ -14,9 +14,9 @@ const CriticalPatientScreen = (props) => {
 	);
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(patientsActions.fetchPatients());
-	}, [dispatch])
+	// useEffect(() => {
+	// 	dispatch(patientsActions.fetchPatients());
+	// }, [dispatch])
 
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('PatientDetail', {

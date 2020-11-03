@@ -7,9 +7,7 @@ import {
 	KeyboardAvoidingView,
 
 } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
 import { TextInput, Card, Switch } from 'react-native-paper';
-import { add } from 'react-native-reanimated';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -21,9 +19,10 @@ const EditPatientScreen = (props) => {
 	const patId = props.navigation.getParam('patientId');
 
 	// Getting edited patient if patient id is set then we are in edit mode
-	const editedPatient = useSelector((state) =>
-		state.patients.clients.find((pat) => pat.id === patId)
-	);
+	const editedPatient = useSelector((state) => state.patients.clients.find((pat) => pat.id === patId));
+
+	//console.log(editedPatient);
+
 	const dispatch = useDispatch();
 
 	// If the the title is set then initialize with title else with empty string. Same goes for other properties
@@ -34,7 +33,7 @@ const EditPatientScreen = (props) => {
 	const [diagnosis, setDiagnosis] = useState(
 		editedPatient ? editedPatient.diagnosis : ''
 	);
-	console.log(editedPatient);
+
 	const [age, setAge] = useState(editedPatient ? editedPatient.age+'' : '');
 
 	const [phone, setPhone] = useState(
@@ -67,7 +66,10 @@ const EditPatientScreen = (props) => {
 	const [diastolicBP, setDiastolicBP] = useState(
 		editedPatient ? editedPatient.diastolicBP+'' : ''
 	);
-	const [o2sat, setO2sat] = useState(editedPatient ? editedPatient.o2sat+'' : '');
+	const [o2sat, setO2Sat] = useState(
+		editedPatient ? editedPatient.o2sat+'' : ''
+	);
+
 	const [isCritical, setIsCritical] = useState(editedPatient ? editedPatient.isCritical : false);
 	const onToggleSwitch = () => setIsCritical(!isCritical);
 
@@ -91,7 +93,8 @@ const EditPatientScreen = (props) => {
 					systolicBP,
 					diastolicBP,
 					o2sat,
-					isCritical
+					isCritical,
+					editedPatient.rid
 				)
 			);
 		} else {
@@ -274,7 +277,7 @@ const EditPatientScreen = (props) => {
 							keyboardType='default'
 							style={styles.input}
 							value={o2sat}
-							onChangeText={(text) => setO2sat(text)}
+							onChangeText={(text) => setO2Sat(text)}
 						/>
 					</View>
 					<View style={styles.formControl}>

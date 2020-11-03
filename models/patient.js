@@ -1,5 +1,5 @@
 class Patient { // The received arguments in the constructor that makes up a patient and store in properties of object
-    constructor(id, careProviderId, title, photo, diagnosis, age, phone, email, address, description,bodyTemperature, pulseRate, respirationRate, systolicBP, diastolicBP, o2sat,  isCritical, ) {
+    constructor(id, careProviderId, title, photo, diagnosis, age, phone, email, address, description,bodyTemperature, pulseRate, respirationRate, systolicBP, diastolicBP, o2sat,  isCritical, rid) {
         this.id = id;
         this.careProviderId = careProviderId;
         this.title = title;
@@ -17,6 +17,7 @@ class Patient { // The received arguments in the constructor that makes up a pat
         this.diastolicBP = diastolicBP;
         this.o2sat = o2sat;
         this.isCritical = isCritical;
+        this.rid = rid;
     }
 }
 

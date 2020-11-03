@@ -9,7 +9,6 @@ import Navigator from './navigation/Navigator';
 
 const rootReducer = combineReducers({
   patients: patientsReducer,
-
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk) );

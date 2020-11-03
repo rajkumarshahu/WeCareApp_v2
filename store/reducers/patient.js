@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 		case SET_PATIENTS:
 			return {
-				clients: action.patients,
+				clients: action.patients.filter((p) => p.isCritical === false),
 				criticalPatients: action.patients.filter((p) => p.isCritical === true)
 			}
 		case DELETE_PATIENT:
@@ -47,11 +47,10 @@ export default (state = initialState, action) => {
 				action.patientData.respirationRate,
 				action.patientData.systolicBP,
 				action.patientData.diastolicBP,
-				action.patientData.o2sat,
+				action.patientData.o2Sat,
 				action.patientData.isCritical
 			);
-			console.log("new patient:")
-			console.log(newPatient);
+
 			return {
 				// Adds newly created patient to store by updating state
 				...state, // first copy the existing state
@@ -80,7 +79,7 @@ export default (state = initialState, action) => {
 				action.patientData.respirationRate,
 				action.patientData.systolicBP,
 				action.patientData.diastolicBP,
-				action.patientData.o2sat
+				action.patientData.o2Sat
 			);
 			// Updating state
 			const updatedCriticalPatients = [...state.criticalPatients]; // copying existing critical patients

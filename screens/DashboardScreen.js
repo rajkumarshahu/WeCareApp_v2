@@ -1,18 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, View, StyleSheet, Text, Platform } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { IconButton } from 'react-native-paper';
 
 import HeaderButton from '../components/HeaderButton';
 import { Card } from 'react-native-paper';
 import Colors from '../constants/Colors';
+import * as patientsActions from '../store/actions/patient';
 
 const DashboardScreen = (props) => {
 	const patients = useSelector((state) => state.patients.clients);
 	const criticalPatients = useSelector(
 		(state) => state.patients.criticalPatients
 	);
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(patientsActions.fetchPatients());
+	}, [dispatch])
+
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('PatientDetail', {
 			patientId: id,

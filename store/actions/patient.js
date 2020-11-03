@@ -1,42 +1,47 @@
-import Patient from "../../models/patient";
-//import axios from 'axios';
+import Patient from '../../models/patient';
 // Defining identifiers
 export const DELETE_PATIENT = 'DELETE_PATIENT';
 export const CREATE_PATIENT = 'CREATE_PATIENT';
 export const UPDATE_PATIENT = 'UPDATE_PATIENT';
-export const SET_PATIENTS = 'SET_PATIENTS'
+export const SET_PATIENTS = 'SET_PATIENTS';
 
+const api_host = 'http://localhost:5000/';
 
 export const fetchPatients = () => {
-	return async dispatch =>{
-
-		const response = await fetch('http://localhost:5000/patients');
+	return async (dispatch) => {
+		const response = await fetch(`${api_host}patients`);
 
 		let resData = await response.json();
 		resData = resData.data;
 
 		const fetchedPatients = [];
-		let bodyTemperature = '', pulseRate='', respirationRate='', systolicBP='',diastolicBP='', o2sat='' ;
 
 		for (const key in resData) {
-let records = resData[key].records;
+			let records = resData[key].records;
+			let bodyTemperature = '',
+			pulseRate = '',
+			respirationRate = '',
+			systolicBP = '',
+			diastolicBP = '',
+			o2Sat = '',
+			rid = '';
 
-			if(records instanceof Array && records.length > 0) {
-
+			if (records instanceof Array && records.length > 0) {
 				let len = records.length;
-				for(let i=0;i<len;i++) {
+				for (let i = 0; i < len; i++) {
 					bodyTemperature = records[i].bodyTemperature;
 					pulseRate = records[i].pulseRate;
 					respirationRate = records[i].respirationRate;
 					systolicBP = records[i].systolicBP;
 					diastolicBP = records[i].diastolicBP;
-					o2sat = records[i].respirationRate;
+					o2Sat = records[i].o2Sat;
+					rid=records[i]._id;
 				}
-
 			}
 
+
 			let newPatient = new Patient(
-				key,
+				resData[key]._id,
 				'u1',
 				resData[key].title,
 				resData[key].photo,
@@ -51,16 +56,17 @@ let records = resData[key].records;
 				respirationRate,
 				systolicBP,
 				diastolicBP,
-				o2sat,
-				resData[key].isCritical
+				o2Sat,
+				resData[key].isCritical,
+				rid
 			);
 
 			fetchedPatients.push(newPatient);
 		}
 
-		 dispatch({ type: SET_PATIENTS, patients: fetchedPatients })
-	}
-}
+		dispatch({ type: SET_PATIENTS, patients: fetchedPatients });
+	};
+};
 
 export const deletePatient = (patientId) => {
 	return { type: DELETE_PATIENT, pid: patientId };
@@ -80,45 +86,57 @@ export const createPatient = (
 	respirationRate,
 	systolicBP,
 	diastolicBP,
-	o2sat,
+	o2Sat,
 	isCritical
 ) => {
-	return async dispatch =>{
+	return async (dispatch) => {
 		const formData = new FormData();
-		formData.append('title',title);
-		formData.append('photo',photo);
-		formData.append('diagnosis',diagnosis);
-		formData.append('age',age);
-		formData.append('phone',phone);
-		formData.append('email',email);
-		formData.append('address',address);
-		formData.append('description',description);
-		formData.append('bodyTemperature',bodyTemperature);
-		formData.append('pulseRate',pulseRate);
-		formData.append('respirationRate',respirationRate);
-		formData.append('systolicBP',systolicBP);
-		formData.append('diastolicBP',diastolicBP);
-		formData.append('o2sat',o2sat);
-		formData.append('isCritical',true);
+		formData.append('title', title);
+		formData.append('photo', photo);
+		formData.append('diagnosis', diagnosis);
+		formData.append('age', age);
+		formData.append('phone', phone);
+		formData.append('email', email);
+		formData.append('address', address);
+		formData.append('description', description);
+		formData.append('isCritical', isCritical);
 
-		const response = await fetch('http://localhost:5000/patients',{
+		const response = await fetch(`${api_host}patients`,{
 			method: 'POST',
 			headers: {
-				'Accept': 'application/json',
-      			'Content-Type': 'application/json'
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
 			},
-			body: formData
+			body: formData,
 		});
 
 		let resData = await response.json();
-		console.log(resData);
-
 		resData = resData.data;
 
-		dispatch( {
+		let recordData = new FormData();
+		recordData.append('bodyTemperature', bodyTemperature);
+		recordData.append('pulseRate', pulseRate);
+		recordData.append('respirationRate', respirationRate);
+		recordData.append('systolicBP', systolicBP);
+		recordData.append('diastolicBP', diastolicBP);
+		recordData.append('o2Sat', o2Sat);
+
+		const record_response = await fetch(`${api_host}patients/${resData._id}/records`,{
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: recordData,
+		});
+
+		let recordDataResponse = await record_response.json();
+		recordDataResponse = recordDataResponse.data;
+
+		dispatch({
 			type: CREATE_PATIENT,
 			patientData: {
-				id: resData._id,
+				pid: resData._id,
 				title,
 				photo,
 				diagnosis,
@@ -132,16 +150,17 @@ export const createPatient = (
 				respirationRate,
 				systolicBP,
 				diastolicBP,
-				o2sat,
-				isCritical
+				o2Sat,
+				isCritical,
+				recordDataResponse
 			},
 		});
-	}
 
+	};
 };
 
 export const updatePatient = (
-	id,
+	pid,
 	title,
 	photo,
 	diagnosis,
@@ -155,28 +174,77 @@ export const updatePatient = (
 	respirationRate,
 	systolicBP,
 	diastolicBP,
-	o2sat,
-	isCritical
+	o2Sat,
+	isCritical,
+	rid
 ) => {
-	return {
-		type: UPDATE_PATIENT,
-		pid: id,
-		patientData: {
-			title,
-			photo,
-			diagnosis,
-			age,
-			phone,
-			email,
-			address,
-			description,
-			bodyTemperature,
-			pulseRate,
-			respirationRate,
-			systolicBP,
-			diastolicBP,
-			o2sat,
-			isCritical
-		},
-	};
+	return async dispatch => {
+		const formData = new FormData();
+		formData.append('title', title);
+		formData.append('photo', photo);
+		formData.append('diagnosis', diagnosis);
+		formData.append('age', age);
+		formData.append('phone', phone);
+		formData.append('email', email);
+		formData.append('address', address);
+		formData.append('description', description);
+		formData.append('isCritical', isCritical);
+
+		const response = await fetch(`${api_host}patients/${pid}`,{
+			method: 'PUT',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: formData,
+		});
+
+		let resData = await response.json();
+		resData = resData.data;
+
+		let recordData = new FormData();
+		recordData.append('bodyTemperature', bodyTemperature);
+		recordData.append('pulseRate', pulseRate);
+		recordData.append('respirationRate', respirationRate);
+		recordData.append('systolicBP', systolicBP);
+		recordData.append('diastolicBP', diastolicBP);
+		recordData.append('o2Sat', o2Sat);
+
+		const record_response = await fetch(`${api_host}patients/${resData._id}/records`,{
+			method: 'PUT',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: recordData,
+		});
+
+		let recordDataResponse = await record_response.json();
+		recordDataResponse = recordDataResponse.data;
+
+		dispatch( {
+			type: UPDATE_PATIENT,
+			pid: id,
+			patientData: {
+				pid:resData._id,
+				title,
+				photo,
+				diagnosis,
+				age,
+				phone,
+				email,
+				address,
+				description,
+				bodyTemperature,
+				pulseRate,
+				respirationRate,
+				systolicBP,
+				diastolicBP,
+				o2Sat,
+				isCritical,
+				recordDataResponse
+			},
+		});
+	}
+
 };
