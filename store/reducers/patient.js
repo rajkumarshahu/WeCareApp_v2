@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
 
 			// Creating new patient
 			const newPatient = new Patient(
-				action.patientData.id,
+				action.patientData.pid,
 				'u1',
 				// title and other properties populated with the help of data from action
 				action.patientData.title,
@@ -48,7 +48,8 @@ export default (state = initialState, action) => {
 				action.patientData.systolicBP,
 				action.patientData.diastolicBP,
 				action.patientData.o2Sat,
-				action.patientData.isCritical
+				action.patientData.isCritical,
+				action.patientData.rid
 			);
 
 			return {
@@ -63,8 +64,12 @@ export default (state = initialState, action) => {
 			const patientIndex = state.criticalPatients.findIndex(
 				(pat) => pat.id === action.pid
 			);
+			console.log(patientIndex)
+			console.log(action.pid)
+			console.log(state.criticalPatients);
 			const updatedPatient = new Patient(
 				action.pid,
+				'cp2',
 				action.patientData.title,
 				action.patientData.photo,
 				action.patientData.diagnosis,
@@ -79,7 +84,8 @@ export default (state = initialState, action) => {
 				action.patientData.systolicBP,
 				action.patientData.diastolicBP,
 				action.patientData.o2Sat,
-				action.patientData.isCritical
+				action.patientData.isCritical,
+				action.patientData.rid
 			);
 			// Updating state
 			const updatedCriticalPatients = [...state.criticalPatients]; // copying existing critical patients

@@ -16,7 +16,7 @@ import * as patientsActions from '../store/actions/patient';
 const EditPatientScreen = (props) => {
 	// To populate when in edit mode get patId
 	const patId = props.navigation.getParam('patientId');
-	console.log(patId);
+	//console.log(patId);
 
 	// Getting edited patient if patient id is set then we are in edit mode
 	const editedPatient = useSelector((state) =>

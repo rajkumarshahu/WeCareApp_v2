@@ -42,8 +42,8 @@ const LogInSignUpScreen = (props) => {
 	const dispatch = useDispatch();
 	const [formState, dispatchFormState] = useReducer(formReducer, {
 		inputValues: {
-			email: '',
-			password: '',
+			email: 'test@test.com',
+			password: '123456',
 		},
 		inputValidities: {
 			email: false,

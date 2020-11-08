@@ -168,7 +168,7 @@ export const createPatient = (
 				diastolicBP,
 				o2Sat,
 				isCritical,
-				recordDataResponse
+				rid: recordDataResponse._id
 			},
 		});
 
@@ -206,10 +206,12 @@ export const updatePatient = (
 		formData.append('description', description);
 		formData.append('isCritical', isCritical);
 
+		let recordDataResponse;
+
 		const response = await fetch(`${api_host}patients/${pid}`,{
 			method: 'PUT',
 			headers: {
-				Accept: 'application/json',
+				'Accept': 'application/json',
 				'Content-Type': 'application/json',
 			},
 			body: formData,
@@ -217,6 +219,7 @@ export const updatePatient = (
 
 		let resData = await response.json();
 		resData = resData.data;
+		console.log(resData);
 
 		let recordData = new FormData();
 		recordData.append('bodyTemperature', bodyTemperature);
@@ -225,21 +228,10 @@ export const updatePatient = (
 		recordData.append('systolicBP', systolicBP);
 		recordData.append('diastolicBP', diastolicBP);
 		recordData.append('o2Sat', o2Sat);
-
-		// const record_response = await fetch(`${api_host}patients/${resData._id}/records`,{
-		// 	method: 'PUT',
-		// 	headers: {
-		// 		Accept: 'application/json',
-		// 		'Content-Type': 'application/json',
-		// 	},
-		// 	body: recordData,
-		// });
-
-		// let recordDataResponse = await record_response.json();
-		// recordDataResponse = recordDataResponse.data;
-
-		if(typeof resData._id !== 'undefined') {
-			const record_response = await fetch(`${api_host}patients/${resData._id}/records`,{
+console.log('resdata: '+resData._id)
+console.log('rid:'+rid)
+		if(typeof resData._id !== 'undefined' && rid) {
+			const record_response = await fetch(`${api_host}records/${rid}`,{
 				method: 'PUT',
 				headers: {
 					'Accept': 'application/json',
@@ -248,15 +240,27 @@ export const updatePatient = (
 				body: recordData,
 			});
 
-			let recordDataResponse = await record_response.json();
+			recordDataResponse = await record_response.json();
+			recordDataResponse = recordDataResponse.data;
+		} else {
+			// add it
+			const record_response = await fetch(`${api_host}patients/${resData._id}/records`,{
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: recordData,
+			});
+
+			recordDataResponse = await record_response.json();
 			recordDataResponse = recordDataResponse.data;
 		}
-
+console.log(recordDataResponse);
 		dispatch( {
 			type: UPDATE_PATIENT,
-			pid: id,
+			pid: pid,
 			patientData: {
-				pid:resData._id,
 				title,
 				photo,
 				diagnosis,
@@ -272,7 +276,7 @@ export const updatePatient = (
 				diastolicBP,
 				o2Sat,
 				isCritical,
-				recordDataResponse
+				rid:recordDataResponse._id
 			},
 		});
 	}
