@@ -4,9 +4,10 @@ import {
 	ScrollView,
 	StyleSheet,
 	Platform,
-	KeyboardAvoidingView
+	KeyboardAvoidingView,
+	Text,
 } from 'react-native';
-import { TextInput, Card, Switch } from 'react-native-paper';
+import { TextInput, Card, Switch, Title, Paragraph } from 'react-native-paper';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -210,6 +211,7 @@ const EditPatientScreen = (props) => {
 							multiline
 							style={styles.input}
 							value={photo}
+							autoCapitalize='none'
 							onChangeText={(text) => setImageUrl(text)}
 							returnKeyType='next'
 						/>
@@ -251,6 +253,7 @@ const EditPatientScreen = (props) => {
 							label='Email'
 							keyboardType='email-address'
 							style={styles.input}
+							autoCapitalize='none'
 							value={email}
 							onChangeText={(text) => setEmail(text)}
 							returnKeyType='next'
@@ -339,8 +342,17 @@ const EditPatientScreen = (props) => {
 							returnKeyType='next'
 						/>
 					</View>
-					<View style={styles.formControl}>
-						<Switch value={isCritical} onValueChange={onToggleSwitch} />
+					<View>
+						<View >
+							<Card style={styles.switch}>
+								<Card.Content>
+									{isCritical == true ? <Title>Mark Patient as Non-Critical:</Title> : <Title>Mark Patient as Critical:</Title>}
+									<Paragraph>
+										<Switch value={isCritical} onValueChange={onToggleSwitch} />
+									</Paragraph>
+								</Card.Content>
+							</Card>
+						</View>
 					</View>
 				</Card>
 			</KeyboardAvoidingView>
@@ -384,6 +396,9 @@ const styles = StyleSheet.create({
 		paddingVertical: 5,
 		borderBottomColor: '#ccc',
 		borderBottomWidth: 1,
+		backgroundColor: '#FEF6D6',
+	},
+	switch: {
 		backgroundColor: '#FEF6D6',
 	},
 });

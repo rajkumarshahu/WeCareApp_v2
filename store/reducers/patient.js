@@ -67,6 +67,7 @@ export default (state = initialState, action) => {
 			console.log(patientIndex)
 			console.log(action.pid)
 			console.log(state.criticalPatients);
+			console.log(action.patientData.isCritical);
 			const updatedPatient = new Patient(
 				action.pid,
 				'cp2',
@@ -87,9 +88,21 @@ export default (state = initialState, action) => {
 				action.patientData.isCritical,
 				action.patientData.rid
 			);
+
 			// Updating state
 			const updatedCriticalPatients = [...state.criticalPatients]; // copying existing critical patients
-			updatedCriticalPatients[patientIndex] = updatedPatient; // replace selected critical patient index with updated patient in the copy
+			if(patientIndex>=0) {// exists already
+				if(action.patientData.isCritical === false) {// if critical is false
+					// remove
+					updatedCriticalPatients.splice(patientIndex, 1);// remove critical patient record
+				} else {
+					updatedCriticalPatients[patientIndex] = updatedPatient; // replace selected critical patient index with updated patient in the copy
+				}
+			} else {// do not exist
+				if(action.patientData.isCritical === true) {// if true
+					updatedCriticalPatients.push(updatedPatient);// add critical patient record
+				}
+			}
 
 			const clientIndex = state.clients.findIndex(
 				(pat) => pat.id === action.pid
