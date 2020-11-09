@@ -5,8 +5,8 @@ export const CREATE_PATIENT = 'CREATE_PATIENT';
 export const UPDATE_PATIENT = 'UPDATE_PATIENT';
 export const SET_PATIENTS = 'SET_PATIENTS';
 
-const api_host = 'http://localhost:5000/';
-// const api_host = 'api-wecare.herokuapp.com/';
+// const api_host = 'http://localhost:5000/';
+const api_host = 'api-wecare.herokuapp.com/';
 export const fetchPatients = () => {
 	return async (dispatch) => {
 		const response = await fetch(`${api_host}patients`);

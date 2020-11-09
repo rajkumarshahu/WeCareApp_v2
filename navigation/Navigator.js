@@ -140,52 +140,69 @@ const AdminNavigator = createStackNavigator(
 	}
 );
 
+const AddEditNavigator2 = createBottomTabNavigator(
+
+	{
+		DashBoard: DashBoardNavigator,
+		Patients: PatientsNavigator,
+		CriticalPatients: AdminNavigator,
+		// EditPatient: AdminNavigator2
+	},
+	{
+		contentOptions: {
+			activeTintColor: Colors.title,
+		},
+	}
+);
+
 // Drawer Navigator
 
 const AddEditNavigator = createDrawerNavigator(
 	{
-		DashBoard: DashBoardNavigator,
-		Patients: PatientsNavigator,
-		CriticalPatient: AdminNavigator,
-		AddPatient: AdminNavigator2,
+		Dashboard: AddEditNavigator2,
+		// DashBoard: DashBoardNavigator,
+		// Patients: PatientsNavigator,
+		// CriticalPatient: AdminNavigator,
+		// AddPatient: AdminNavigator2,
 	},
 	{
 		contentOptions: {
 			activeTintColor: Colors.primary,
 		},
 		contentComponent: (props) => {
-
 			const dispatch = useDispatch();
 			return (
 				<View style={{ flex: 1, paddingTop: 20 }}>
 					<SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
 						<DrawerNavigatorItems {...props} />
-
-						<Button
-							title='Logout'
-							color={Colors.primary}
-							onPress={() => {
-								dispatch(logInSignUpActions.logout());
-								props.navigation.navigate('LogInSignUp');
+						<View
+							style={{
+								flexDirection: 'row',
+								alignItems: 'center',
+								margin: 20,
+								color: Colors.primary,
 							}}
-						/>
+						>
+							<Ionicons
+								name={Platform.OS === 'android' ? 'md-log-out' : 'ios-log-out'}
+								size={30}
+							/>
+
+							<Button
+								title='Logout'
+								color={Colors.primary}
+								onPress={() => {
+									dispatch(logInSignUpActions.logout());
+									props.navigation.navigate('LogInSignUp');
+								}}
+							/>
+						</View>
 					</SafeAreaView>
 				</View>
 			);
 		},
 	}
 );
-
-// const AddEditNavigator = createBottomTabNavigator({
-//     DashBoard: DashBoardNavigator,
-//     Patients : PatientsNavigator,
-//     CriticalPatient: AdminNavigator,
-//     EditPatient: AdminNavigator2
-// }, {
-//     contentOptions: {
-//         activeTintColor: Colors.primary
-//     }
-// });
 
 const LogInSignUpNavigator = createStackNavigator(
 	{
