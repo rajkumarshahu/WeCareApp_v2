@@ -81,34 +81,34 @@ const DashBoardNavigator = createStackNavigator(
 	}
 );
 
-const AdminNavigator2 = createStackNavigator(
-	{
-		PatientsList: PatientsListScreen,
-		EditPatient: EditPatientScreen,
-	},
-	{
-		navigationOptions: {
-			tabBarIcon: (tabConfig) => (
-				<Ionicons
-					name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
-					size={50}
-					color={tabConfig.tintColor}
-				/>
-			),
-			drawerIcon: (drawerConfig) => (
-				<Ionicons
-					name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
-					size={23}
-					color={drawerConfig.tintColor}
-				/>
-			),
-		},
-	},
+// const AdminNavigator2 = createStackNavigator(
+// 	{
+// 		PatientsList: PatientsListScreen,
+// 		EditPatient: EditPatientScreen,
+// 	},
+// 	{
+// 		navigationOptions: {
+// 			tabBarIcon: (tabConfig) => (
+// 				<Ionicons
+// 					name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
+// 					size={50}
+// 					color={tabConfig.tintColor}
+// 				/>
+// 			),
+// 			drawerIcon: (drawerConfig) => (
+// 				<Ionicons
+// 					name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
+// 					size={23}
+// 					color={drawerConfig.tintColor}
+// 				/>
+// 			),
+// 		},
+// 	},
 
-	{
-		defaultNavigationOptions: defaultNavOptions,
-	}
-);
+// 	{
+// 		defaultNavigationOptions: defaultNavOptions,
+// 	}
+// );
 
 const AdminNavigator = createStackNavigator(
 	{
@@ -139,6 +139,8 @@ const AdminNavigator = createStackNavigator(
 		defaultNavigationOptions: defaultNavOptions,
 	}
 );
+
+
 
 const AddEditNavigator2 = createBottomTabNavigator(
 

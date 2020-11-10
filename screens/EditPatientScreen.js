@@ -344,10 +344,10 @@ const EditPatientScreen = (props) => {
 					</View>
 					<View>
 						<View >
-							<Card style={styles.switch}>
-								<Card.Content>
+							<Card >
+								<Card.Content style={styles.switch}>
 									{isCritical == true ? <Title>Mark Patient as Non-Critical:</Title> : <Title>Mark Patient as Critical:</Title>}
-									<Paragraph>
+									<Paragraph >
 										<Switch value={isCritical} onValueChange={onToggleSwitch} />
 									</Paragraph>
 								</Card.Content>
@@ -399,6 +399,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#FEF6D6',
 	},
 	switch: {
+		flexDirection: 'row',
 		backgroundColor: '#FEF6D6',
 	},
 });
