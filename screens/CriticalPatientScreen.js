@@ -12,35 +12,8 @@ const CriticalPatientScreen = (props) => {
 	const criticalPatients = useSelector(
 		(state) => state.patients.criticalPatients
 	);
-	//console.log(criticalPatients);
+
 	const dispatch = useDispatch();
-
-	// dispatch( {
-	// 	type: 'UPDATE_PATIENT',
-	// 	pid: '5fa7344eec137b29c664f152',
-	// 	patientData: {
-	// 		title: 'Raj 03',
-	// 		photo: 'https://rajkumarshahu.com/assets/images/raj-photo1.JPG',
-	// 		diagnosis: 'asdf',
-	// 		age: 23,
-	// 		phone: 23,
-	// 		email: 'asdf@mail.com',
-	// 		address: 'asdf asdf asdf',
-	// 		description: 'asdf asdf asdf',
-	// 		bodyTemperature: 23,
-	// 		pulseRate: 23,
-	// 		respirationRate: 23,
-	// 		systolicBP: 23,
-	// 		diastolicBP: 23,
-	// 		o2Sat: 23,
-	// 		isCritical: 23,
-	// 		rid:'5fa7344fec137b29c664f153'
-	// 	},
-	// });
-
-	// useEffect(() => {
-	// 	dispatch(patientsActions.fetchPatients());
-	// }, [dispatch])
 
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('PatientDetail', {

@@ -8,7 +8,6 @@ import HeaderButton from '../components/HeaderButton';
 import { Card } from 'react-native-paper';
 import Colors from '../constants/Colors';
 import * as patientsActions from '../store/actions/patient';
-// import * as loginActions from '../store/actions/logInSignUp';
 
 const DashboardScreen = (props) => {
 	const patients = useSelector((state) => state.patients.clients);
@@ -18,10 +17,9 @@ const DashboardScreen = (props) => {
 
 	const dispatch = useDispatch();
 
-
 	useEffect(() => {
 		dispatch(patientsActions.fetchPatients());
-	}, [dispatch])
+	}, [dispatch]);
 
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('PatientDetail', {
@@ -31,14 +29,11 @@ const DashboardScreen = (props) => {
 	};
 	return (
 		<View style={styles.screen}>
-
 			<View style={styles.container}>
 				<Card>
 					<View style={styles.container}>
-					<View>
-							<Text>
-
-							</Text>
+						<View>
+							<Text></Text>
 						</View>
 						<View>
 							<Text style={styles.summaryText}>

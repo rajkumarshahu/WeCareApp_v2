@@ -18,7 +18,7 @@ const PatientsListScreen = (props) => {
 
 	useEffect(() => {
 		dispatch(patientsActions.fetchPatients());
-	}, [dispatch])
+	}, [dispatch]);
 
 	const selectItemHandler = (id, title) => {
 		props.navigation.navigate('PatientDetail', {

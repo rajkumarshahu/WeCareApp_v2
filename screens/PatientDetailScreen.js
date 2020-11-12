@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-	ScrollView,
-	View,
-	Text,
-	Image,
-	StyleSheet,
-} from 'react-native';
+import { ScrollView, View, Text, Image, StyleSheet } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import { useSelector } from 'react-redux'; // Use this to select single patient
 

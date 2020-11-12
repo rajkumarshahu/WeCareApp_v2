@@ -140,10 +140,7 @@ const AdminNavigator = createStackNavigator(
 	}
 );
 
-
-
 const AddEditNavigator2 = createBottomTabNavigator(
-
 	{
 		DashBoard: DashBoardNavigator,
 		Patients: PatientsNavigator,

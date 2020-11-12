@@ -30,18 +30,14 @@ const EditPatientScreen = (props) => {
 
 	// If the the title is set then initialize with title else with empty string. Same goes for other properties
 	const [title, setTitle] = useState(editedPatient ? editedPatient.title : '');
-	// const [titleIsValid, setTitleIsValid] = useState(false);
 	const [photo, setImageUrl] = useState(
 		editedPatient ? editedPatient.photo : ''
 	);
-	// const [imageUrlIsValid, setImageUrlIsValid] = useState(false);
 	const [diagnosis, setDiagnosis] = useState(
 		editedPatient ? editedPatient.diagnosis : ''
 	);
-	// const [diagnosisIsValid, setDiagnosisIsValid] = useState(false);
 
 	const [age, setAge] = useState(editedPatient ? editedPatient.age + '' : '');
-	// const [ageIsValid, setAgeisIsValid] = useState(false);
 
 	const [phone, setPhone] = useState(editedPatient ? editedPatient.phone : '');
 
@@ -79,12 +75,6 @@ const EditPatientScreen = (props) => {
 	const onToggleSwitch = () => setIsCritical(!isCritical);
 
 	const submitHandler = useCallback(() => {
-		// if (!titleIsValid || !imageUrlIsValid || !diagnosisIsValid || !ageIsValid) {
-		// 	Alert.alert('Wrong input!', 'Please check the errors in the form.', [
-		// 		{ text: 'Okay' },
-		// 	]);
-		// 	return;
-		// }
 		if (editedPatient) {
 			// then we are editing and dispatch update patient action
 			dispatch(
@@ -154,41 +144,6 @@ const EditPatientScreen = (props) => {
 	useEffect(() => {
 		props.navigation.setParams({ submit: submitHandler });
 	}, [submitHandler]);
-
-	// const titleChangeHandler = (text) => {
-	// 	if (text.trim().length === 0) {
-	// 		setTitleIsValid(false);
-	// 	} else {
-	// 		setTitleIsValid(true);
-	// 	}
-	// 	setTitle(text);
-	// };
-
-	// const imageUrlChangeHandler = (text) => {
-	// 	if (text.trim().length === 0) {
-	// 		setImageUrlIsValid(false);
-	// 	} else {
-	// 		setImageUrlIsValid(true);
-	// 	}
-	// 	setImageUrl(text);
-	// };
-
-	// const diagnosisChangeHandler = (text) => {
-	// 	if (text.trim().length === 0) {
-	// 		setDiagnosisIsValid(false);
-	// 	} else {
-	// 		setDiagnosisIsValid(true);
-	// 	}
-	// 	setDiagnosis(text);
-	// };
-	// const ageChangeHandler = (text) => {
-	// 	if (text.trim().length === 0) {
-	// 		setAgeisIsValid(false);
-	// 	} else {
-	// 		setAgeisIsValid(true);
-	// 	}
-	// 	setAge(text);
-	// };
 
 	return (
 		<ScrollView>
@@ -343,11 +298,15 @@ const EditPatientScreen = (props) => {
 						/>
 					</View>
 					<View>
-						<View >
-							<Card >
+						<View>
+							<Card>
 								<Card.Content style={styles.switch}>
-									{isCritical == true ? <Title>Mark Patient as Non-Critical:</Title> : <Title>Mark Patient as Critical:</Title>}
-									<Paragraph >
+									{isCritical == true ? (
+										<Title>Mark Patient as Non-Critical:</Title>
+									) : (
+										<Title>Mark Patient as Critical:</Title>
+									)}
+									<Paragraph>
 										<Switch value={isCritical} onValueChange={onToggleSwitch} />
 									</Paragraph>
 								</Card.Content>
